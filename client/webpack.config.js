@@ -1,5 +1,6 @@
 const path = require('path');
 
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
@@ -54,6 +55,9 @@ const config = {
     path: DIST_PATH,
   },
   plugins: [
+    new MomentLocalesPlugin({
+      localesToKeep: ['ja'],
+    }),
     new webpack.ProvidePlugin({
       $: 'jquery',
       AudioContext: ['standardized-audio-context', 'AudioContext'],
