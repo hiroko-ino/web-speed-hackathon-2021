@@ -4,7 +4,8 @@ const fsPromises = fs.promises;
 const glob = require('glob');
 const path = require('path');
 
-const ORIGINAL_IMG_DIR = glob.sync('**/public/images/'); // 元画像を格納しているディレクトリ
+// const ORIGINAL_IMG_DIR = glob.sync('**/public/images/'); // 元画像を格納しているディレクトリ
+const ORIGINAL_IMG_DIR = glob.sync('**/public/images/profiles/'); // 元画像を格納しているディレクトリ
 
 /**
  * 画像をリサイズしてリサイズ後のディレクトリに格納する
@@ -15,8 +16,8 @@ function createResizeImage(imgPath, outputFilePath) {
   sharp(imgPath)
   .resize({
     fit: 'cover',
-    height: 554,
-    width: 988,
+    height: 252,
+    width: 252,
   })
   .toFormat('webp', { quality: 90 })
   .toFile(outputFilePath, (err) => {
