@@ -6,6 +6,7 @@ import sharp from 'sharp';
  * @param {number} [options.extension]
  * @param {number} [options.height]
  * @param {number} [options.width]
+ * @param {number} [options.quality]
  * @returns {Promise<Uint8Array>}
  */
 async function convertImage(buffer, options) {
@@ -15,7 +16,7 @@ async function convertImage(buffer, options) {
       height: options.height,
       width: options.width,
     })
-    .toFormat(options.extension ?? 'jpeg')
+    .toFormat(options.extension ?? 'webp', { quality: options.quality })
     .toBuffer();
 }
 
