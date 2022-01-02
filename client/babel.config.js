@@ -6,13 +6,15 @@ module.exports = {
         corejs: '3',
         modules: 'commonjs',
         useBuiltIns: false,
+        exclude: ['proposal-dynamic-import']
       },
     ],
     [
       '@babel/preset-react',
       {
-        development: true,
+        development: false,
       },
     ],
   ],
+  plugins: ['@babel/plugin-syntax-dynamic-import'],
 };
