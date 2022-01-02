@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 import { Route, Routes, useLocation } from 'react-router-dom';
 
 import { AppPage } from '../../components/application/AppPage';
 import { useFetch } from '../../hooks/use_fetch';
 import { fetchJSON } from '../../utils/fetchers';
-import { AuthModalContainer } from '../AuthModalContainer';
-import { NewPostModalContainer } from '../NewPostModalContainer';
-import { NotFoundContainer } from '../NotFoundContainer';
-import { PostContainer } from '../PostContainer';
-import { TermContainer } from '../TermContainer';
-import { TimelineContainer } from '../TimelineContainer';
-import { UserProfileContainer } from '../UserProfileContainer';
+import AuthModalContainer from '../AuthModalContainer';
+import NewPostModalContainer from '../NewPostModalContainer';
+
+const NotFoundContainer = React.lazy(() => import(/* webpackChunkName: "NotFoundContainer" */ '../NotFoundContainer'));
+const PostContainer = React.lazy(() => import(/* webpackChunkName: "PostContainer" */ '../PostContainer'));
+const TermContainer = React.lazy(() => import(/* webpackChunkName: "TermContainer" */ '../TermContainer'));
+const TimelineContainer = React.lazy(() => import(/* webpackChunkName: "TimelineContainer" */ '../TimelineContainer'));
+const UserProfileContainer = React.lazy(() => import(/* webpackChunkName: "UserProfileContainer" */ '../UserProfileContainer'));
 
 /** @type {React.VFC} */
 const AppContainer = () => {
@@ -46,13 +47,15 @@ const AppContainer = () => {
         onRequestOpenAuthModal={handleRequestOpenAuthModal}
         onRequestOpenPostModal={handleRequestOpenPostModal}
       >
-        <Routes>
-          <Route element={<TimelineContainer />} path="/" />
-          <Route element={<UserProfileContainer />} path="/users/:username" />
-          <Route element={<PostContainer />} path="/posts/:postId" />
-          <Route element={<TermContainer />} path="/terms" />
-          <Route element={<NotFoundContainer />} path="*" />
-        </Routes>
+        <Suspense fallback={<div>loading</div>}>
+          <Routes>
+            <Route element={<TimelineContainer />} path="/" />
+            <Route element={<UserProfileContainer />} path="/users/:username" />
+            <Route element={<PostContainer />} path="/posts/:postId" />
+            <Route element={<TermContainer />} path="/terms" />
+            <Route element={<NotFoundContainer />} path="*" />
+          </Routes>
+        </Suspense>
       </AppPage>
 
       {modalType === 'auth' ? (
@@ -60,7 +63,7 @@ const AppContainer = () => {
       ) : null}
       {modalType === 'post' ? <NewPostModalContainer onRequestCloseModal={handleRequestCloseModal} /> : null}
     </>
-  );
+  )
 };
 
 export { AppContainer };

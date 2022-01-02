@@ -1,5 +1,6 @@
 const path = require('path');
 
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
@@ -20,7 +21,7 @@ const config = {
     },
     static: [PUBLIC_PATH, UPLOAD_PATH],
   },
-  devtool: 'inline-source-map',
+  devtool: process.env.NODE_ENV === 'production' ? false : 'inline-source-map',
   entry: {
     main: [
       'core-js',
@@ -31,7 +32,7 @@ const config = {
       path.resolve(SRC_PATH, './index.jsx'),
     ],
   },
-  mode: 'none',
+  mode: 'production',
   module: {
     rules: [
       {
@@ -43,7 +44,7 @@ const config = {
         test: /\.css$/i,
         use: [
           { loader: MiniCssExtractPlugin.loader },
-          { loader: 'css-loader', options: { url: false } },
+          { loader: 'css-loader', options: { url: false, sourceMap: false } },
           { loader: 'postcss-loader' },
         ],
       },
@@ -54,6 +55,9 @@ const config = {
     path: DIST_PATH,
   },
   plugins: [
+    new MomentLocalesPlugin({
+      localesToKeep: ['ja'],
+    }),
     new webpack.ProvidePlugin({
       $: 'jquery',
       AudioContext: ['standardized-audio-context', 'AudioContext'],
@@ -64,7 +68,7 @@ const config = {
       BUILD_DATE: new Date().toISOString(),
       // Heroku では SOURCE_VERSION 環境変数から commit hash を参照できます
       COMMIT_HASH: process.env.SOURCE_VERSION || '',
-      NODE_ENV: 'development',
+      NODE_ENV: 'production',
     }),
     new MiniCssExtractPlugin({
       filename: 'styles/[name].css',
