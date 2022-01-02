@@ -7,12 +7,20 @@ import { useFetch } from '../../hooks/use_fetch';
 import { fetchJSON } from '../../utils/fetchers';
 import AuthModalContainer from '../AuthModalContainer';
 import NewPostModalContainer from '../NewPostModalContainer';
+import TimelineContainer from '../TimelineContainer';
 
 const NotFoundContainer = React.lazy(() => import(/* webpackChunkName: "NotFoundContainer" */ '../NotFoundContainer'));
 const PostContainer = React.lazy(() => import(/* webpackChunkName: "PostContainer" */ '../PostContainer'));
 const TermContainer = React.lazy(() => import(/* webpackChunkName: "TermContainer" */ '../TermContainer'));
-const TimelineContainer = React.lazy(() => import(/* webpackChunkName: "TimelineContainer" */ '../TimelineContainer'));
 const UserProfileContainer = React.lazy(() => import(/* webpackChunkName: "UserProfileContainer" */ '../UserProfileContainer'));
+
+const Loading = () => {
+  return (
+    <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
+      <div className="animate-spin h-10 w-10 border-4 border-blue-500 rounded-full border-t-transparent"></div>
+    </div>
+  )
+}
 
 /** @type {React.VFC} */
 const AppContainer = () => {
@@ -47,7 +55,7 @@ const AppContainer = () => {
         onRequestOpenAuthModal={handleRequestOpenAuthModal}
         onRequestOpenPostModal={handleRequestOpenPostModal}
       >
-        <Suspense fallback={<div>loading</div>}>
+        <Suspense fallback={<Loading />}>
           <Routes>
             <Route element={<TimelineContainer />} path="/" />
             <Route element={<UserProfileContainer />} path="/users/:username" />
