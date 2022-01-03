@@ -15,11 +15,11 @@ const ORIGINAL_IMG_DIR = glob.sync('**/public/images/'); // 元画像を格納�
 function createResizeImage(imgPath, outputFilePath) {
   sharp(imgPath)
   .resize({
-    fit: 'cover',
-    height: 322, // profile 252
-    width: 574, // profile 252
+    fit: 'outside',
+    height: 644, // profile 252
+    width: 1148, // profile 252
   })
-  .toFormat('webp', { quality: 100 })
+  .toFormat('webp', { quality: 90 })
   .toFile(outputFilePath, (err) => {
     if ( err ) console.error(err);
     return;
