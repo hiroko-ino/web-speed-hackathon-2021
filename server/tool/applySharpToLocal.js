@@ -19,7 +19,7 @@ function createResizeImage(imgPath, outputFilePath) {
     height: 644, // profile 252
     width: 1148, // profile 252
   })
-  .toFormat('webp', { quality: 90 })
+  .toFormat('webp', { quality: 100 })
   .toFile(outputFilePath, (err) => {
     if ( err ) console.error(err);
     return;
