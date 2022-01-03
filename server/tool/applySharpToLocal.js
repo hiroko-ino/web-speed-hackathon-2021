@@ -16,8 +16,8 @@ function createResizeImage(imgPath, outputFilePath) {
   sharp(imgPath)
   .resize({
     fit: 'cover',
-    height: 644, // profile 252
-    width: 1148, // profile 252
+    height: 322, // profile 252
+    width: 574, // profile 252
   })
   .toFormat('webp', { quality: 100 })
   .toFile(outputFilePath, (err) => {
